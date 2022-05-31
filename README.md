@@ -32,6 +32,10 @@
 $ npm install
 ```
 
+## Set up Youtube API Key
+
+Create a Google Developer Account (https://developers.google.com) unless you already have one and add the YouTube Data API key into the .env.example file and rename it to .env.
+
 ## Running the app
 
 ```bash
