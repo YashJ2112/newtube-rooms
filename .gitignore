@@ -38,4 +38,4 @@ lerna-debug.log*
 .env
 
 # DeepCode file
-.dccaches
+.dccache
