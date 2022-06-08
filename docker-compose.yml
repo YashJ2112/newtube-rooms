@@ -3,7 +3,7 @@ version: '3'
 services:
   rooms-service:
     container_name: rooms-service
-    image: rooms-service:1.0.0
+    image: rooms-service:latest
     build:
       context: .
       dockerfile: Dockerfile
