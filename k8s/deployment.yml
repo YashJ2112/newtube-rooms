@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: room
+  labels:
+    app: room
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: room
+  template:
+    metadata:
+      labels:
+        app: room
+    spec:
+      containers:
+        - name: room
+          image: newtube.azurecr.io/rooms-service:latest
+          env:
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-uri-pass
+                  key: MONGO_URI
+                  optional: false
+          ports:
+            - containerPort: 3001
+      imagePullSecrets:
+        - name: acr-secret

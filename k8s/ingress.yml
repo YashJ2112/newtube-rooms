@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api-ingress
+  # annotations:
+  #   nginx.ingress.kubernetes.io/rewrite-target: /
+
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /rooms
+            pathType: Prefix
+            backend:
+              service:
+                name: room-service
+                port:
+                  number: 80
+# localhost:xxxx/rooms/hi
+
+# localhost:xxxx/
+# localhost:xxxx/hi
