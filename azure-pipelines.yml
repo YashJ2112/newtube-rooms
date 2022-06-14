@@ -40,8 +40,8 @@ stages:
         Dockerfile: '**/Dockerfile'
         tags: '$(tag)'
 
-    - upload: manifests
-      artifact: manifests
+    - upload: k8s
+      artifact: k8s
 
 - stage: Deploy
   displayName: Deploy stage
