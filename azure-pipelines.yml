@@ -1,0 +1,80 @@
+# Deploy to Azure Kubernetes Service
+# Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- main
+
+resources:
+- repo: self
+
+variables:
+
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: '7cec05a9-1a6a-456b-88ab-7c9f7d8634fc'
+  imageRepository: 'rooms-service'
+  containerRegistry: 'newtube.azurecr.io'
+  dockerfilePath: '**/Dockerfile'
+  tag: '$(Build.BuildId)'
+  imagePullSecret: 'newtube189443fb-auth'
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
+
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        containerRegistry: 'NewTube'
+        repository: '$(imageRepository)'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: '$(tag)'
+
+    - upload: manifests
+      artifact: manifests
+
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: Build
+
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy
+    pool:
+      vmImage: $(vmImageName)
+    environment: 'YashJ2112roomsservice-7539.default'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: KubernetesManifest@0
+            displayName: Create imagePullSecret
+            inputs:
+              action: 'createSecret'
+              kubernetesServiceConnection: 'newtube-aks-default'
+              secretType: 'dockerRegistry'
+              secretName: '$(imagePullSecret)'
+              dockerRegistryEndpoint: '$(dockerRegistryServiceConnection)'
+
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes cluster
+            inputs:
+              action: 'deploy'
+              kubernetesServiceConnection: 'newtube-aks-default'
+              manifests: |
+                $(Pipeline.Workspace)/k8s/deployment.yml
+                $(Pipeline.Workspace)/k8s/service.yml
+                $(Pipeline.Workspace)/k8s/ingress.yml
+              containers: '$(containerRegistry)/$(imageRepository):$(tag)'
+              imagePullSecrets: '$(imagePullSecret)'
+
