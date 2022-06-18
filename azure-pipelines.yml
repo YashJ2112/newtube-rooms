@@ -22,7 +22,6 @@ variables:
 stages:
   - stage: Test
     displayName: Integration Test
-
     jobs:
       - job: Test
         steps:
@@ -34,7 +33,7 @@ stages:
             displayName: 'Run the tests'
             inputs:
               command: 'custom'
-              customCommand: 'run test'
+              customCommand: 'test'
   - stage: Build
     displayName: Build and push stage
     dependsOn: Test
