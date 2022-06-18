@@ -27,6 +27,11 @@ stages:
   - job: Test
     steps:
     - task: Npm@1
+      displayName: "Install dependencies"
+      inputs:
+        command: 'install'
+    - task: Npm@1
+      displayName: "Run the tests"
       inputs:
         command: 'custom'
         customCommand: 'run test'
