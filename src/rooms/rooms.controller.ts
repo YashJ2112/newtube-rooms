@@ -26,6 +26,7 @@ export class RoomsController {
       roomCapacity,
     );
     return { id: generatedId };
+    console.log('Room created');
   }
 
   @Get()

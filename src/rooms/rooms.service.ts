@@ -32,12 +32,14 @@ export class RoomsService {
 
   async getSingleRoom(roomId: string) {
     const room = await this.findRoom(roomId);
-    return {
-      id: room.id,
-      name: room.name,
-      joinLink: room.joinLink,
-      capacity: room.capacity,
-    };
+    if (room)
+      return {
+        id: room.id,
+        name: room.name,
+        joinLink: room.joinLink,
+        capacity: room.capacity,
+      };
+    throw new NotFoundException('Room not found');
   }
 
   async updateRoom(roomId: string, roomData: RoomUpdateSchema) {
