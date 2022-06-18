@@ -27,7 +27,7 @@ jobs:
       - name: integration testing
         run: npm test
         env:
-          MONGO_TEST_URI: ${{ secrets.MONGO_TEST_URI }}
+          MONGO_TEST_URI: ${{ secrets.MONGO_URI_TESTS }}
   security:
     runs-on: ubuntu-latest
     steps:
