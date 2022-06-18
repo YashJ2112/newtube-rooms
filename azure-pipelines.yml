@@ -33,7 +33,7 @@ stages:
             displayName: 'Run the tests'
             inputs:
               command: 'custom'
-              customCommand: 'test'
+              customCommand: 'run test'
   - stage: Build
     displayName: Build and push stage
     dependsOn: Test
