@@ -20,8 +20,19 @@ variables:
   vmImageName: 'ubuntu-latest'
 
 stages:
+- stage: Test
+  displayName: Integration Test
+
+  jobs: 
+  - job: Test
+    steps:
+    - task: Npm@1
+      inputs:
+        command: 'custom'
+        customCommand: 'run test'
 - stage: Build
   displayName: Build and push stage
+  dependsOn: Test
   jobs:
   - job: Build
     displayName: Build
