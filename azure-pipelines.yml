@@ -24,6 +24,11 @@ stages:
     displayName: Integration Test
     jobs:
       - job: Test
+        variables:
+        - name: MONGO_URI
+          value: 'mongodb+srv://YJ2112:Mufc2112@cluster0.ilxgz.mongodb.net/rooms?retryWrites=true&w=majority&ssl=true'
+        - name: MONGO_URI_TESTS
+          value: 'mongodb+srv://YJ2112:Mufc2112@cluster0.ilxgz.mongodb.net/roomTest?retryWrites=true&w=majority&ssl=true' 
         steps:
           - task: Npm@1
             displayName: 'Install dependencies'
