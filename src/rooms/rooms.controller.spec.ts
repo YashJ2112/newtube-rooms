@@ -1,7 +1,9 @@
+import { ConfigModule } from '@nestjs/config';
 import { getConnectionToken, MongooseModule } from '@nestjs/mongoose';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { Test } from '@nestjs/testing';
 import { Connection } from 'mongoose';
+import { env } from 'process';
 import * as supertest from 'supertest';
 import { Room } from './room.model';
 import { RoomsModule } from './rooms.module';
@@ -23,13 +25,16 @@ describe('RoomsController', () => {
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [
-        MongooseModule.forRoot('mongodb://localhost:27017', { dbName: 'test' }),
+        ConfigModule.forRoot(),
+        MongooseModule.forRoot(env.MONGO_URI_TESTS, {
+          useNewUrlParser: true,
+        }),
         RoomsModule,
       ],
     }).compile();
 
     app = moduleRef.createNestApplication<NestExpressApplication>();
-    await app.listen(3000);
+    await app.listen(3005);
   });
 
   afterEach(async () => {
