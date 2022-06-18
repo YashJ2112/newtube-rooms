@@ -38,9 +38,7 @@ describe('RoomsController', () => {
   });
 
   afterEach(async () => {
-    await (app.get(getConnectionToken()) as Connection).db.dropCollection(
-      'roomTest',
-    );
+    await (app.get(getConnectionToken()) as Connection).db.dropDatabase();
     await app.close();
   });
 
