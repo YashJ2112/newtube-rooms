@@ -21,12 +21,12 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@nestjs/common": "^8.4.4",
+    "@nestjs/common": "^8.4.5",
     "@nestjs/config": "^2.0.1",
-    "@nestjs/core": "^8.0.0",
+    "@nestjs/core": "^8.4.5",
     "@nestjs/microservices": "^8.4.5",
     "@nestjs/mongoose": "^9.0.3",
-    "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/platform-express": "^8.4.5",
     "@nestjs/platform-socket.io": "^8.4.4",
     "@nestjs/websockets": "^8.4.4",
     "amqp-connection-manager": "^4.1.2",
